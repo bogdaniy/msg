@@ -18,7 +18,7 @@ jobs:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
-      - run: npm build
+      - run: npm run build
       - store_artifacts:
           path: public
           prefix: build
