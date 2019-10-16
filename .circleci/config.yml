@@ -29,7 +29,8 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            scp -r $SSH_USER@$SSH_HOST:/var/www/msg ./public
+            scp -r itcv/* itcv/.* $SSH_USER@$SSH_HOST:var/www/msg
+            scp -r /var/www/msg ./public
 
 workflows:
   version: 2.1
