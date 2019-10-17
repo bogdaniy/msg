@@ -26,12 +26,13 @@ jobs:
       - store_artifacts:
           path: public
           prefix: build
+      - run: ls -la && pwd
   deploy:
     <<: *DEFAULTS
     machine:
       enabled: true
     steps:
-      - run: ls -la
+      - run: ls -la && pwd
       - run:
           name: Deploy Over SSH
           command: |
