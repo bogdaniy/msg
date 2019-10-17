@@ -32,6 +32,8 @@ jobs:
     machine:
       enabled: true
     steps:
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
       - run: ls -la && pwd
       - run:
           name: Deploy Over SSH
