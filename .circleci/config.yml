@@ -32,6 +32,7 @@ jobs:
     machine:
       enabled: true
     steps:
+      - checkout
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run: ls -la && pwd
