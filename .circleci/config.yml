@@ -36,6 +36,7 @@ jobs:
     machine:
       enabled: true
     steps:
+      - checkout
       - restore_cache:
           key: build-cache-{{ checksum "package-lock.json" }}
       - restore_cache:
