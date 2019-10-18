@@ -27,7 +27,7 @@ jobs:
           path: public
           prefix: build
       - save_cache:
-          key: build-cache-{{ checksum "package-lock.json" }}
+          key: build-cache
           paths:
             - ./public
    
@@ -38,10 +38,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: build-cache-{{ checksum "package-lock.json" }}
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
-      - run: ls -la && pwd
+          key: build-cache
       - run:
           name: Deploy Over SSH
           command: |
