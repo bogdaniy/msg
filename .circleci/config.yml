@@ -2,16 +2,15 @@ version: 2.1
 
 jobs_defaults: &DEFAULTS
   working_directory: ~/msg
-  docker:
-    - image: circleci/node:10.16.3
-
 
 jobs:
   build:
-    <<: *DEFAULTS    
+    <<: *DEFAULTS     
+    docker:
+     - image: circleci/node:10.16.3
     steps: 
-      - checkout
-      - run:
+     - checkout
+     - run:
           name: update-npm
           command: 'sudo npm install -g npm@latest'
       - restore_cache:
@@ -27,10 +26,18 @@ jobs:
       - store_artifacts:
           path: public
           prefix: build
-      - run: ls -la && pwd
+      - save_cache:
+          key: build-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./public
+   
   deploy:
     <<: *DEFAULTS
+    machine:
+      enabled: true
     steps:
+      - restore_cache:
+          key: build-cache-{{ checksum "package-lock.json" }}
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run: ls -la && pwd
