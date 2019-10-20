@@ -16,20 +16,19 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
       - run:
-          name: install-npm-wee
-          command: npm install
+          name: build
+          command: make
       - save_cache:
           key: dependency-cache-{{ checksum "package-lock.json" }}
           paths:
             - ./node_modules
-      - run: npm run build
       - store_artifacts:
-          path: public
+          path: __sapper__/export
           prefix: build
       - save_cache:
           key: build-cache
           paths:
-            - ./public
+            - ./__sapper__
    
   deploy:
     <<: *DEFAULTS
@@ -43,7 +42,7 @@ jobs:
           name: Deploy Over SSH
           command: |
             ssh $SSH_USER@$SSH_HOST "rm -rf /var/www/msg/*"
-            scp -r public/*  $SSH_USER@$SSH_HOST:/var/www/msg
+            scp -r __sapper__/export/*  $SSH_USER@$SSH_HOST:/var/www/msg
 
 workflows:
   version: 2.1
